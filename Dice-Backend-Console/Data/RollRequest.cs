@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dice_Backend_Console.Data
 {
-    public class DiceRequest
+    public class RollRequest
     {
-        public DiceRequest(string walletAddress, decimal walletBalance, int sliderValue, string selectedCurrency, decimal betAmount, float multiplier)
+        public RollRequest(string walletAddress, decimal walletBalance, int sliderValue, string selectedCurrency, decimal betAmount, float multiplier)
         {
             WalletAddress = walletAddress;
             WalletBalance = walletBalance;

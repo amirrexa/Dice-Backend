@@ -25,36 +25,31 @@ namespace Dice_Backend_Web.Controllers
 
         [Route("Roll")]
         [HttpPost]
-        public IActionResult RollDice(IFormCollection form)
+        public IActionResult RollDice([FromBody]RollRequest request)
         {
-            string walletAddress = form["walletAddress"];
-            decimal walletBalance = Convert.ToDecimal(form["walletBalance"]);
-            int sliderValue = Convert.ToInt32(form["sliderValue"]);
-            string selectedCurrency = form["selectedCurrency"];
-            decimal betAmount = Convert.ToDecimal(form["betAmount"]);
-            float multiplier = Convert.ToSingle(form["multiplier"]);
-            var request = new DiceRequest(walletAddress, walletBalance, sliderValue, selectedCurrency, betAmount, multiplier);
             if (request.BetAmount > request.WalletBalance)
             {
                 return BadRequest("Invalid bet amount");
             }
-
+            else
+            {
             var rollResult = _diceManager.Roll(request);
             string outcomeResult = rollResult.payout > 0 ? "Won" : "Busted";
 
-            var wonPlayer = _diceRepository.GetPlayerByWalletAddress(walletAddress);
-            _diceRepository.AddToWalletBalance(wonPlayer, rollResult.payout);
+            var player = _diceRepository.GetPlayerByWalletAddress(request.WalletAddress);
+            _diceManager.AddToWalletBalance(player, rollResult.payout);
 
             _diceRepository.AddGameHistoryEntry(outcomeResult, request.WalletAddress, request.Multiplier, rollResult.rolledValue, rollResult.payout, DateTime.Now);
-            return Ok(outcomeResult);
+            return Json(outcomeResult, player.Balance);
+            }
         }
 
         [Route("[action]")]
         [HttpGet]
-        public IActionResult LoadPlayer(string walletAddress)
+        public Player LoadPlayer(string walletAddress)
         {
             var player = _diceRepository.GetPlayerByWalletAddress(walletAddress);
-            return Ok(player);
+            return player;
         }
     }
 }

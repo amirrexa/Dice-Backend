@@ -38,22 +38,10 @@ namespace Dice_Backend_Console.Data.Repository
                 return player;
         }
 
-        //public void CreatePlayer(string walletAddress, decimal balance)
-        //{
-            
-        //    diceContext.Players.Add(new Player(walletAddress, balance));
-        //    diceContext.SaveChanges();  
-        //}
-
         public void DeletePlayer(Player player)
         {
             diceContext.Players.Remove(player);
             diceContext.SaveChanges();
-        }
-
-        public void AddToWalletBalance(Player player, decimal value)
-        {
-            player.Balance += value;
         }
     }
 }

@@ -10,7 +10,6 @@ namespace Dice_Backend_Console.Data.Repository
     {
         //void CreatePlayer(string walletAddress, decimal balance);
         Player GetPlayerByWalletAddress(string walletAddress);
-        void AddToWalletBalance(Player player, decimal value);
         void AddGameHistoryEntry(string outcomeResult, string playerWalletAddress, float multiplier, int rolledValue, decimal payout, DateTime time);
         List<GameHistoryEntry> GetAllGameHistory();
     }

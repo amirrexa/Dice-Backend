@@ -9,7 +9,7 @@ namespace Dice_Backend_Console.Business
 {
     public class DiceManager
     {
-        public (decimal payout, int rolledValue) Roll(DiceRequest request)
+        public (decimal payout, int rolledValue) Roll(RollRequest request)
         {
             var random = new Random();
             int rolledValue = random.Next(0, 99);
@@ -24,6 +24,10 @@ namespace Dice_Backend_Console.Business
 
                 return (payout * -1, rolledValue);
             }
+        }
+        public void AddToWalletBalance(Player player, decimal value)
+        {
+            player.Balance += value;
         }
     }
 }
